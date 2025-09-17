@@ -17,6 +17,7 @@ public class FossaEntity extends CatEntity {
         super(type, world);
     }
 
+
     // Attributs (vie, vitesse, dégâts)
     public static DefaultAttributeContainer.Builder createFossaAttributes() {
         return PathAwareEntity.createMobAttributes()
