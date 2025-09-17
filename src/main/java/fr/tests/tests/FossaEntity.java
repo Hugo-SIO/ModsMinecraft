@@ -4,6 +4,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
+import net.minecraft.entity.mob.CreeperEntity;
 import net.minecraft.entity.mob.PathAwareEntity;
 import net.minecraft.entity.passive.*;
 import net.minecraft.entity.player.PlayerEntity;
@@ -12,11 +13,11 @@ import net.minecraft.item.Items;
 import net.minecraft.entity.damage.DamageSource;
 
 public class FossaEntity extends CatEntity {
-    public FossaEntity(EntityType<? extends CatEntity> entityType, World world) {
-        super(entityType, world);
+    public FossaEntity(EntityType<? extends CatEntity> type, World world) {
+        super(type, world);
     }
 
-    // Méthode statique obligatoire pour l'enregistrement
+    // Attributs (vie, vitesse, dégâts)
     public static DefaultAttributeContainer.Builder createFossaAttributes() {
         return PathAwareEntity.createMobAttributes()
                 .add(EntityAttributes.GENERIC_MAX_HEALTH, 20.0)
@@ -38,18 +39,13 @@ public class FossaEntity extends CatEntity {
         this.targetSelector.add(4, new ActiveTargetGoal<>(this, ChickenEntity.class, true));
     }
 
-
-    public boolean canClimb() {
-        return true;
-    }
-
     @Override
-    protected void
-    dropLoot(DamageSource source, boolean causedByPlayer) {
+    protected void dropLoot(DamageSource source, boolean causedByPlayer) {
         super.dropLoot(source, causedByPlayer);
         this.dropItem(Items.LEATHER);
-        // Tu peux ajouter un item spécial pour le côté survivaliste
     }
 
+    public boolean canClimb() {
+        return true; // utile si tu veux qu’il grimpe comme un chat
+    }
 }
-
