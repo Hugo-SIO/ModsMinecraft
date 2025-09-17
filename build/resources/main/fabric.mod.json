@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "id": "tests",
+  "version": "1.0-SNAPSHOT",
+  "name": "tests",
+  "description": "",
+  "authors": [],
+  "contact": {
+    "repo": "https://github.com/lepar/tests"
+  },
+  "license": "All-Rights-Reserved",
+  "icon": "assets/tests/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "fr.tests.tests.client.TestsClient"
+    ],
+    "main": [
+      "fr.tests.tests.Tests"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=0.17.2",
+    "fabric": "*",
+    "minecraft": "1.20.1"
+  }
+}
