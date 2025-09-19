@@ -4,19 +4,20 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
-import net.minecraft.entity.mob.CreeperEntity;
 import net.minecraft.entity.mob.PathAwareEntity;
 import net.minecraft.entity.passive.*;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.world.World;
+import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.entity.damage.DamageSource;
 
-public class FossaEntity extends CatEntity {
-    public FossaEntity(EntityType<? extends CatEntity> type, World world) {
+public class FossaEntity extends AnimalEntity {
+
+    public FossaEntity(EntityType<? extends AnimalEntity> type, World world) {
         super(type, world);
     }
-
 
     // Attributs (vie, vitesse, dégâts)
     public static DefaultAttributeContainer.Builder createFossaAttributes() {
@@ -32,8 +33,8 @@ public class FossaEntity extends CatEntity {
         this.goalSelector.add(1, new MeleeAttackGoal(this, 1.3, true));
         this.goalSelector.add(2, new WanderAroundFarGoal(this, 1.0));
         this.goalSelector.add(3, new LookAtEntityGoal(this, PlayerEntity.class, 8.0F));
-        this.goalSelector.add(4, new ClimbTreeGoal(this));
-
+        this.goalSelector.add(4, new AnimalMateGoal(this, 1.0));
+        this.goalSelector.add(5, new ClimbTreeGoal(this));
         this.targetSelector.add(1, new ActiveTargetGoal<>(this, CowEntity.class, true));
         this.targetSelector.add(2, new ActiveTargetGoal<>(this, SheepEntity.class, true));
         this.targetSelector.add(3, new ActiveTargetGoal<>(this, PigEntity.class, true));
@@ -46,7 +47,19 @@ public class FossaEntity extends CatEntity {
         this.dropItem(Items.LEATHER);
     }
 
-    public boolean canClimb() {
-        return true; // utile si tu veux qu’il grimpe comme un chat
+    // Définir quel item sert à la reproduction
+    @Override
+    public boolean isBreedingItem(ItemStack stack) {
+        return stack.getItem() == Items.WHEAT; // ici, le blé
+    }
+
+    // Créer l’enfant
+    @Override
+    public FossaEntity createChild(ServerWorld world, PassiveEntity mate) {
+        FossaEntity child = ModEntities.FOSSA.create(world); // ton enregistrement d’entité
+        if(child != null){
+            child.setBaby(true);
+        }
+        return child;
     }
 }
